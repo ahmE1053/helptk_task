@@ -11,18 +11,24 @@ class SplashScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final animationController =
-        useAnimationController(duration: const Duration(milliseconds: 2000));
-    final linesAnimations = List.generate(
-      3,
-      (index) {
-        const interval = 0.6 / 3;
-        return Tween<double>(begin: 0, end: 1).animate(
-          CurvedAnimation(
-            parent: animationController,
-            curve: Interval(index * interval, index * interval + interval),
-          ),
-        );
-      },
+        useAnimationController(duration: const Duration(milliseconds: 2500));
+    final secondLineScale = Tween<double>(begin: 1, end: 0.6).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: const Interval(0.2, 0.35),
+      ),
+    );
+    final thirdLineScale = Tween<double>(begin: 0.6, end: 0.3).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: const Interval(0.45, 0.6),
+      ),
+    );
+    final thirdLineOffset = Tween<double>(begin: 0, end: 0.05).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: const Interval(0.45, 0.6),
+      ),
     );
     final bottomContainerOpacity = Tween<double>(begin: 0.0, end: 1).animate(
       CurvedAnimation(
@@ -33,7 +39,7 @@ class SplashScreen extends HookWidget {
     final logoOpacity = Tween<double>(begin: 0.0, end: 1).animate(
       CurvedAnimation(
         parent: animationController,
-        curve: const Interval(0.5, 0.8),
+        curve: const Interval(0.6, 0.8),
       ),
     );
     final bottomImageOpacity = Tween<double>(begin: 0.0, end: 1).animate(
@@ -45,7 +51,7 @@ class SplashScreen extends HookWidget {
     final linesOpacity = Tween<double>(begin: 1, end: 0.0).animate(
       CurvedAnimation(
         parent: animationController,
-        curve: const Interval(0.45, 0.55),
+        curve: const Interval(0.65, 0.75),
       ),
     );
     useEffect(
@@ -53,13 +59,13 @@ class SplashScreen extends HookWidget {
         animationController.forward();
         Future.delayed(
           const Duration(
-            milliseconds: 3500,
+            milliseconds: 4000,
           ),
         ).then(
           (_) => Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (_) => FirstBoardingScreen(),
+              builder: (_) => const FirstBoardingScreen(),
             ),
           ),
         );
@@ -72,21 +78,36 @@ class SplashScreen extends HookWidget {
         fit: StackFit.expand,
         children: [
           AnimatedBuilder(
-            animation: linesOpacity,
+            animation: Listenable.merge(
+                [linesOpacity, secondLineScale, thirdLineScale]),
             builder: (context, child) {
-              return Transform.flip(
-                flipX: true,
-                child: Opacity(
-                  opacity: linesOpacity.value,
-                  child: CustomPaint(
-                    painter: LinesPainter(
-                      linesAnimations[0].value ?? 0,
-                      linesAnimations[1].value ?? 0,
-                      linesAnimations[2].value ?? 0,
-                    ),
-                    child: child,
+              return Stack(
+                children: [
+                  SplashLine(
+                    linesOpacity: linesOpacity,
+                    child: child!,
                   ),
-                ),
+                  Transform.scale(
+                    alignment: Alignment.centerRight,
+                    scale: secondLineScale.value,
+                    child: SplashLine(
+                      linesOpacity: linesOpacity,
+                      child: child,
+                    ),
+                  ),
+                  if (secondLineScale.value == 0.6)
+                    Transform.translate(
+                      offset: Offset(0, context.height * thirdLineOffset.value),
+                      child: Transform.scale(
+                        alignment: Alignment.centerRight,
+                        scale: thirdLineScale.value,
+                        child: SplashLine(
+                          linesOpacity: linesOpacity,
+                          child: child,
+                        ),
+                      ),
+                    ),
+                ],
               );
             },
             child: Container(),
@@ -121,7 +142,7 @@ class SplashScreen extends HookWidget {
           Positioned(
             bottom: 0,
             width: context.width,
-            height: context.height * 0.4,
+            height: context.height * 0.35,
             child: AnimatedBuilder(
               animation: bottomImageOpacity,
               builder: (context, child) {
@@ -130,9 +151,12 @@ class SplashScreen extends HookWidget {
                   child: child,
                 );
               },
-              child: SvgPicture.asset(
-                'assets/splash_asset.svg',
-                fit: BoxFit.fill,
+              child: AspectRatio(
+                aspectRatio: 500 / 577,
+                child: SvgPicture.asset(
+                  'assets/pattern2.svg',
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
@@ -156,6 +180,30 @@ class SplashScreen extends HookWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class SplashLine extends StatelessWidget {
+  const SplashLine({
+    super.key,
+    required this.linesOpacity,
+    required this.child,
+  });
+
+  final Animation<double> linesOpacity;
+  final Widget child;
+  @override
+  Widget build(BuildContext context) {
+    return Transform.flip(
+      flipX: true,
+      child: Opacity(
+        opacity: linesOpacity.value,
+        child: CustomPaint(
+          painter: LinesPainter(1, 1, 1),
+          child: child,
+        ),
       ),
     );
   }
