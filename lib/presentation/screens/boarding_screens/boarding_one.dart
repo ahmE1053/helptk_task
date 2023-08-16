@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:task_helptk/presentation/widgets/boarding/boarding_text.dart';
 import '../../widgets/boarding/smooth_indicator.dart';
 import 'boarding_two.dart';
 import '../../../core/consts/context_extensions.dart';
-import '../../../core/painters/boarding_painters.dart';
+import '../../../core/painters/boarding_one_painter.dart';
 import '../../../core/utilities/boarding_icons_generator.dart';
 import '../../widgets/boarding/bottom_row.dart';
 
@@ -20,10 +22,14 @@ class FirstBoardingScreen extends HookWidget {
         initialValue: reverse ? 1.0 : 0.0);
     final firstIconAnimation =
         Tween<double>(begin: 1.0, end: 2.0).animate(animationController);
+    final iconHeightAnimation =
+        Tween(begin: 1, end: 1.5).animate(firstIconAnimation);
     final opacity = Tween(begin: 1.0, end: 0.0).animate(animationController);
     final path = Path();
     final firstIcon = useState<Widget?>(null);
+
     final secondIcon = useState<Widget?>(null);
+
     useEffect(
       () {
         WidgetsBinding.instance.addPostFrameCallback(
@@ -36,7 +42,7 @@ class FirstBoardingScreen extends HookWidget {
               0.15 * firstIconAnimation.value,
               context.width * 0.1,
               context.width * 0.05,
-              context.width * 0.05,
+              context.width * 0.05 * iconHeightAnimation.value,
               'assets/boarding_one_devices.svg',
             );
             secondIcon.value = getBoardingIcon(
@@ -58,12 +64,13 @@ class FirstBoardingScreen extends HookWidget {
                 0.15 * firstIconAnimation.value,
                 context.width * 0.1,
                 context.width * 0.05,
-                context.width * 0.05,
+                context.width * 0.05 * iconHeightAnimation.value,
                 'assets/boarding_one_devices.svg',
               );
             }
           },
         );
+        return null;
       },
       [],
     );
@@ -87,21 +94,19 @@ class FirstBoardingScreen extends HookWidget {
                 ),
                 Align(
                   child: SizedBox(
-                    height: context.height * 0.4,
-                    child: AspectRatio(
-                      aspectRatio: 311 / 314,
-                      child: AnimatedBuilder(
-                        animation: opacity,
-                        builder: (context, child) {
-                          return Opacity(
-                            opacity: opacity.value,
-                            child: child!,
-                          );
-                        },
-                        child: SvgPicture.asset(
-                          'assets/boarding_one.svg',
-                          fit: BoxFit.fill,
-                        ),
+                    height: 314.h,
+                    width: 311.w,
+                    child: AnimatedBuilder(
+                      animation: opacity,
+                      builder: (context, child) {
+                        return Opacity(
+                          opacity: opacity.value,
+                          child: child!,
+                        );
+                      },
+                      child: SvgPicture.asset(
+                        'assets/boarding_one.svg',
+                        fit: BoxFit.fill,
                       ),
                     ),
                   ),
@@ -114,34 +119,9 @@ class FirstBoardingScreen extends HookWidget {
                       SizedBox(
                         height: context.height * 0.02,
                       ),
-                      Hero(
-                        tag: 'oneToTwo',
-                        child: Material(
-                          type: MaterialType.transparency,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Text(
-                                'Step 1',
-                                style: GoogleFonts.poppins(
-                                  color: const Color(0xFF272727),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  height: 1.50,
-                                ),
-                              ),
-                              Text(
-                                'Browse Services and\nChoose what you need',
-                                style: GoogleFonts.poppins(
-                                  color: const Color(0xFF646464),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.71,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      const BoardingText(
+                        subtitle: 'Browse Services and\nChoose what you need',
+                        titleStep: 1,
                       ),
                     ],
                   ),

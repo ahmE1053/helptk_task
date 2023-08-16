@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -15,7 +16,7 @@ import 'package:task_helptk/presentation/screens/boarding_screens/boarding_three
 import 'package:task_helptk/presentation/widgets/boarding/boarding_text.dart';
 import '../../../core/consts/app_typography.dart';
 import '../../../core/consts/context_extensions.dart';
-import '../../../core/painters/boarding_painters.dart';
+import '../../../core/painters/boarding_one_painter.dart';
 import '../../widgets/boarding/bottom_row.dart';
 import '../../widgets/boarding/smooth_indicator.dart';
 
@@ -67,7 +68,7 @@ class SecondBoardingScreen extends HookWidget {
               firstIconAnimation.value * 0.2,
               context.width * 0.1,
               context.width * 0.1,
-              context.width * 0.05,
+              context.width * 0.07,
               'assets/boarding_files.svg',
             );
           },
@@ -86,7 +87,7 @@ class SecondBoardingScreen extends HookWidget {
           if (firstIcon.value != null) firstIcon.value!,
           if (secondIcon.value != null) secondIcon.value!,
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -94,23 +95,21 @@ class SecondBoardingScreen extends HookWidget {
                   height: context.height * 0.1,
                 ),
                 SizedBox(
-                  height: context.height * 0.4,
-                  child: AspectRatio(
-                    aspectRatio: 311 / 314,
-                    child: AnimatedBuilder(
-                      animation: opacity,
-                      builder: (context, child) {
-                        return Opacity(
-                          opacity: opacity.value > 1
-                              ? (2 - opacity.value)
-                              : opacity.value,
-                          child: child,
-                        );
-                      },
-                      child: SvgPicture.asset(
-                        'assets/boarding_two.svg',
-                        fit: BoxFit.fill,
-                      ),
+                  height: 314.h,
+                  width: 311.w,
+                  child: AnimatedBuilder(
+                    animation: opacity,
+                    builder: (context, child) {
+                      return Opacity(
+                        opacity: opacity.value > 1
+                            ? (2 - opacity.value)
+                            : opacity.value,
+                        child: child,
+                      );
+                    },
+                    child: SvgPicture.asset(
+                      'assets/boarding_two.svg',
+                      fit: BoxFit.fill,
                     ),
                   ),
                 ),
@@ -120,7 +119,7 @@ class SecondBoardingScreen extends HookWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       SizedBox(
-                        height: context.height * 0.15,
+                        height: context.height * 0.19,
                       ),
                       const BoardingText(
                         subtitle: 'Order your Services &\nAdd your Brief',

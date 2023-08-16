@@ -17,18 +17,18 @@ class ThirdBoardingPainter extends CustomPainter {
       ..moveTo(0, startHeight)
       ..cubicTo(
         size.width * 0.14,
-        startHeight - 10,
+        startHeight - 70,
         size.width * 0.3,
         startHeight - 30,
         size.width * 0.5,
-        startHeight + size.height * 0.15,
+        startHeight + size.height * 0.1,
       );
 
     path.cubicTo(
       size.width * 0.65,
-      startHeight + size.height * 0.3,
-      size.width * 0.75,
-      startHeight + size.height * 0.17,
+      startHeight + size.height * 0.2,
+      size.width * 0.8,
+      startHeight + size.height * 0.15,
       size.width * 0.9,
       startHeight + size.height * 0.1,
     );
@@ -41,7 +41,7 @@ class ThirdBoardingPainter extends CustomPainter {
         size.width * 0.9,
         startHeight + size.height * 0.1,
       ),
-      15,
+      10,
       circlePaint,
     );
   }

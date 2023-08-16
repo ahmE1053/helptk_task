@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:task_helptk/core/consts/context_extensions.dart';
 
@@ -25,7 +26,7 @@ class BoardingText extends StatelessWidget {
               'Step $titleStep',
               style: GoogleFonts.poppins(
                 color: const Color(0xFF272727),
-                fontSize: 16,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
                 height: 1.50,
               ),
@@ -34,8 +35,8 @@ class BoardingText extends StatelessWidget {
               subtitle,
               style: GoogleFonts.poppins(
                 color: const Color(0xFF646464),
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w300,
                 height: 1.71,
               ),
             ),

@@ -18,14 +18,14 @@ class FirstBoardingPainter extends CustomPainter {
         size.width * 0.1,
         startHeight,
       ),
-      15,
+      10,
       circlePaint,
     );
     path
-      ..moveTo(size.width * 0.12, startHeight)
+      ..moveTo(size.width * 0.1, startHeight)
       ..cubicTo(
         size.width * 0.14,
-        startHeight - 10,
+        startHeight + 10,
         size.width * 0.27,
         startHeight + 20,
         size.width * 0.32,
@@ -34,15 +34,15 @@ class FirstBoardingPainter extends CustomPainter {
     path.cubicTo(
       size.width * 0.45,
       startHeight + size.height * 0.2,
-      size.width * 0.63,
-      startHeight + size.height * 0.17,
+      size.width * 0.85,
+      startHeight + size.height * 0.15,
       size.width * 0.75,
       startHeight - size.height * 0.05,
     );
     path.cubicTo(
       size.width * 0.75,
       startHeight - size.height * 0.05,
-      size.width * 0.8,
+      size.width * 0.7,
       startHeight - size.height * 0.15,
       size.width,
       startHeight - size.height * 0.12,

@@ -20,19 +20,17 @@ class SecondBoardingPainter extends CustomPainter {
         startHeight - 10,
         size.width * 0.3,
         startHeight - 30,
-        size.width * 0.5,
-        startHeight + size.height * 0.15,
+        size.width * 0.55,
+        startHeight + size.height * 0.09,
       );
-
     path.cubicTo(
-      size.width * 0.7,
-      startHeight + size.height * 0.3,
+      size.width * 0.8,
+      startHeight + size.height * 0.2,
       size.width * 0.9,
       startHeight + size.height * 0.17,
       size.width,
       startHeight + size.height * 0.1,
     );
-
     canvas.drawPath(
       path,
       linePaint,

@@ -1,6 +1,7 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:task_helptk/core/painters/boarding_two_painter.dart';
 import 'package:task_helptk/presentation/screens/boarding_screens/boarding_one.dart';
@@ -23,20 +24,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery(
-      data: MediaQuery.of(context).copyWith(
-        textScaleFactor: 1,
-      ),
-      child: MaterialApp(
-        locale: DevicePreview.locale(context),
-        builder: DevicePreview.appBuilder,
-        theme: ThemeData(
-          textTheme: GoogleFonts.poppinsTextTheme(),
-          colorSchemeSeed: const Color(0xff0E2E5C),
-          useMaterial3: true,
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      builder: (context, child) => MediaQuery(
+        data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+        child: MaterialApp(
+          locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
+          theme: ThemeData(
+            textTheme: GoogleFonts.poppinsTextTheme(),
+            colorSchemeSeed: const Color(0xff0E2E5C),
+            useMaterial3: true,
+          ),
+          home: child,
         ),
-        home: const SplashScreen(),
       ),
+      child: const SplashScreen(),
     );
   }
 }
